@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="MissingTranslation">PSPDFKit</string>
+    <string name="settings" tools:ignore="MissingTranslation">Settings</string>
+    <string name="light_mode_selected" tools:ignore="MissingTranslation">Light mode is Selected</string>
+    <string name="dark_mode_selected" tools:ignore="MissingTranslation">Dark mode is Selected</string>
+    <string name="dynamic_mode_selected" tools:ignore="MissingTranslation">Dynamic color mode is On</string>
+    <string name="dynamic_mode_unselected" tools:ignore="MissingTranslation">Dynamic color mode is Off</string>
+    <string name="default_theme" tools:ignore="MissingTranslation">Default theme is Selected</string>
+    <string name="custom_theme" tools:ignore="MissingTranslation">Custom theme is Selected</string>
+    <string name="storage_cleared" tools:ignore="MissingTranslation">Local storage cleared</string>
+    <string name="clear_cache" tools:ignore="MissingTranslation">Clear cache</string>
+    <string name="cache_summary" tools:ignore="MissingTranslation">This will clear all the locally stored pdf entries and will re-fetch again.</string>
+    <string name="cache_title" tools:ignore="MissingTranslation">Clear Storage</string>
+</resources>
