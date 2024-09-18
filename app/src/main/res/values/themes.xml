@@ -15,6 +15,7 @@
         <item name="pspdf__contextualToolbarStyle">@style/PSPDFCompose.ContextualToolbar.Light</item>
         <item name="pspdf__settingsDialogStyle">@style/PSPDFCompose.SettingsDialog.Light</item>
         <item name="pspdf__thumbnailBarStyle">@style/PSPDFCompose.ThumbnailBar.Light</item>
+        <item name="pspdf__activityTitleOverlayColor">@color/black</item>
     </style>
 
     <style name="PSPDFCompose.MainToolbarStyle.Light" parent="@style/PSPDFKit.MainToolbar">
@@ -86,6 +87,7 @@
         <item name="pspdf__contextualToolbarStyle">@style/PSPDFCompose.ContextualToolbar.Dark</item>
         <item name="pspdf__settingsDialogStyle">@style/PSPDFCompose.SettingsDialog.Dark</item>
         <item name="pspdf__thumbnailBarStyle">@style/PSPDFCompose.ThumbnailBar.Dark</item>
+        <item name="pspdf__activityTitleOverlayColor">@color/black</item>
     </style>
 
     <style name="PSPDFCompose.MainToolbarStyle.Dark" parent="PSPDFKit.MainToolbar.Dark">
