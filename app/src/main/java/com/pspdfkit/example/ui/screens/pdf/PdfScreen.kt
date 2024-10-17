@@ -9,6 +9,7 @@ package com.pspdfkit.example.ui.screens.pdf
 
 import android.content.Context
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -145,7 +146,7 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
                     documentState = documentState,
                     colorScheme = uiColors,
                     navigationIcon = {
-                        IconButton(onClick = { navigateTo.invoke() }) {
+                        IconButton(onClick = { if (documentState.isDefaultViewerActive()) navigateTo.invoke() else documentState.exitCurrentState() }) {
                             Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = it)
                         }
                     },
@@ -155,6 +156,9 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
                 )
             }
         }
+    }
+    BackHandler(true) {
+        if (documentState.isDefaultViewerActive()) navigateTo.invoke() else documentState.exitCurrentState()
     }
 }
 

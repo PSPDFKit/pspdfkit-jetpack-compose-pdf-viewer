@@ -7,7 +7,7 @@
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("kotlin-android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
 }
@@ -50,7 +50,7 @@ dependencies {
 
     // PSPDFKit is integrated from the PSPDFKit Maven repository. See the `repositories` block at the beginning
     // of this file, which shows how to set up the repository in your app.
-    implementation("com.pspdfkit:pspdfkit:2024.6.0")
+    implementation("com.pspdfkit:pspdfkit:2024.7.0")
 
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
