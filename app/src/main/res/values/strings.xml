@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">PSPDFKit Simple Example</string>
+    <string name="app_name">Simple Example</string>
     <string name="settings">Settings</string>
     <string name="light_mode_selected">Light mode is Selected</string>
     <string name="dark_mode_selected">Dark mode is Selected</string>
