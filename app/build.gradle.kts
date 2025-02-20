@@ -7,17 +7,18 @@
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("kotlin-android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
 }
 
 android {
-    namespace = "com.pspdfkit.example.compose"
+    namespace = "com.pspdfkit.example"
     compileSdk = 35
 
     defaultConfig {
         applicationId = namespace
-        minSdk = 21
+        minSdk = 31
         targetSdk = compileSdk
         versionCode = 1
         versionName = "1.0"
@@ -37,9 +38,6 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
     lint {
         warningsAsErrors = true
         disable.add("ObsoleteLintCustomCheck")
@@ -52,7 +50,7 @@ dependencies {
 
     // PSPDFKit is integrated from the PSPDFKit Maven repository. See the `repositories` block at the beginning
     // of this file, which shows how to set up the repository in your app.
-    implementation("com.pspdfkit:pspdfkit:2024.5.1")
+    implementation("com.pspdfkit:pspdfkit:2024.7.0")
 
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
@@ -66,7 +64,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.activity:activity-compose:1.9.0")
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
+    implementation(platform("androidx.compose:compose-bom:2024.09.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")

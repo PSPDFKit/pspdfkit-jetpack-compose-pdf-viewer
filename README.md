@@ -1,6 +1,6 @@
-# PSPDFKit for Android Example - Jetpack Compose PDF Viewer
+# PSPDFKit for Android Example - Simple Jetpack Compose Example App
 
-An example app demonstrating [PSPDFKit for Android](https://pspdfkit.com/pdf-sdk/android/)'s composable API in the `com.pspdfkit.jetpack.compose` package.
+A simple example app demonstrating [PSPDFKit for Android](https://pspdfkit.com/pdf-sdk/android/)'s composable API in the `com.pspdfkit.jetpack.compose` package.
 
 ## Prerequisites
 
