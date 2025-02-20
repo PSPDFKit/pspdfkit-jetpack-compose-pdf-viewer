@@ -1,5 +1,5 @@
 /*
- *   Copyright © 2023-2024 PSPDFKit GmbH. All rights reserved.
+ *   Copyright © 2023-2025 PSPDFKit GmbH. All rights reserved.
  *
  *   The PSPDFKit Sample applications are licensed with a modified BSD license.
  *   Please see License for details. This notice may not be removed from this file.
@@ -17,19 +17,16 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Square
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -67,7 +64,6 @@ import com.pspdfkit.jetpack.compose.components.MainToolbar
 import com.pspdfkit.jetpack.compose.interactors.DefaultListeners
 import com.pspdfkit.jetpack.compose.interactors.getDefaultDocumentManager
 import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
-import com.pspdfkit.jetpack.compose.utilities.ExperimentalPSPDFKitApi
 import com.pspdfkit.jetpack.compose.views.DocumentView
 import org.koin.androidx.compose.getViewModel
 import java.io.File
@@ -90,7 +86,6 @@ fun PdfScreen(id: String, navigateTo: () -> Unit) {
     }
 }
 
-@OptIn(ExperimentalPSPDFKitApi::class)
 @Composable
 fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: () -> Unit) {
     val updatedTheme = getDocumentViewTheme(theme, isDark)
@@ -158,27 +153,16 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
                         }
                     },
                     overFlowActions = {
-                        Row(
-                            Modifier.clickable {
+                        DropdownMenuItem(
+                            onClick = {
                                 documentState.documentConnection.showToolbarMenu.invoke(false)
                                 Toast.makeText(context, "Custom Action Button Clicked", Toast.LENGTH_LONG).show()
-                            }.padding(horizontal = 16.dp, vertical = 13.dp)
-                        ) {
-                            Icon(imageVector = Icons.Outlined.Square, contentDescription = "Custom Action", tint = it)
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(text = "Custom Action", color = UiTheme.colors.mainToolbar.textColor)
-                        }
-                        /*
-                        For Material 2 use this
-                            DropdownMenuItem(onClick = {
-                                documentState.documentConnection.showToolbarMenu.invoke(false)
-                                Toast.makeText(context, "Custom Action Button Clicked", Toast.LENGTH_LONG).show()
-                            }) {
+                            },
+                            text = { Text(text = "Custom Action", color = UiTheme.colors.mainToolbar.textColor) },
+                            leadingIcon = {
                                 Icon(imageVector = Icons.Outlined.Square, contentDescription = "Custom Action", tint = it)
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(text = "Custom Action", color = UiTheme.colors.mainToolbar.textColor)
                             }
-                        */
+                        )
                     },
                     onHeightChanged = { height ->
                         toolbarHeight = with(localDensity) { height.toDp() }

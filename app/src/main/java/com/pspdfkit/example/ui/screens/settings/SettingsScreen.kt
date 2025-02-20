@@ -1,5 +1,5 @@
 /*
- *   Copyright © 2023-2024 PSPDFKit GmbH. All rights reserved.
+ *   Copyright © 2023-2025 PSPDFKit GmbH. All rights reserved.
  *
  *   The PSPDFKit Sample applications are licensed with a modified BSD license.
  *   Please see License for details. This notice may not be removed from this file.
@@ -65,14 +65,14 @@ fun SettingsScreen(navigateTo: () -> Unit) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
             }
         })
-    }) {
+    }) { paddingValues ->
         val context = LocalContext.current
         val theme = context.isDarkThemeOn().collectAsState(initial = 0)
         val dynamic = context.isThemeDynamic().collectAsState(initial = 0)
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(it)
+                .padding(paddingValues)
         ) {
             Column(
                 modifier = Modifier
@@ -107,8 +107,8 @@ fun SettingsScreen(navigateTo: () -> Unit) {
                     }
                     Switch(
                         colors = SwitchDefaults.colors(uncheckedThumbColor = MaterialTheme.colorScheme.secondary),
-                        onCheckedChange = {
-                            viewModel.updateDynamicTheme(if (it) Theme.DynamicColors.enabled else Theme.DynamicColors.disabled)
+                        onCheckedChange = { checked ->
+                            viewModel.updateDynamicTheme(if (checked) Theme.DynamicColors.enabled else Theme.DynamicColors.disabled)
                         },
                         checked = dynamic.value == Theme.DynamicColors.enabled
                     )
@@ -141,8 +141,8 @@ fun SettingsScreen(navigateTo: () -> Unit) {
                     }
                     Switch(
                         colors = SwitchDefaults.colors(uncheckedThumbColor = MaterialTheme.colorScheme.secondary),
-                        onCheckedChange = {
-                            viewModel.updateDarkTheme(if (it) isLight else isSystemSpecific)
+                        onCheckedChange = { checked ->
+                            viewModel.updateDarkTheme(if (checked) isLight else isSystemSpecific)
                         },
                         checked = theme.value != isSystemSpecific
                     )
@@ -176,8 +176,8 @@ fun SettingsScreen(navigateTo: () -> Unit) {
                         }
                         Switch(
                             colors = SwitchDefaults.colors(uncheckedThumbColor = MaterialTheme.colorScheme.secondary),
-                            onCheckedChange = {
-                                viewModel.updateDarkTheme(if (it) isDark else isLight)
+                            onCheckedChange = { checked ->
+                                viewModel.updateDarkTheme(if (checked) isDark else isLight)
                             },
                             checked = theme.value == isDark
                         )
