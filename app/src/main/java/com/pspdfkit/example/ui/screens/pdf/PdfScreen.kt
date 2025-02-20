@@ -17,17 +17,23 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Square
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -44,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.pspdfkit.compose.theme.MainToolbarColors
 import com.pspdfkit.compose.theme.ToolbarPopupColors
+import com.pspdfkit.compose.theme.UiTheme
 import com.pspdfkit.compose.theme.getUiColors
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.UserInterfaceViewMode
@@ -92,7 +99,7 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
     val localDensity = LocalDensity.current
     val pdfActivityConfiguration = PdfActivityConfiguration
         .Builder(context)
-        .disableDefaultToolbar()
+        .defaultToolbarEnabled(false)
         .setUserInterfaceViewMode(UserInterfaceViewMode.USER_INTERFACE_VIEW_MODE_AUTOMATIC)
         .themeMode(ThemeMode.DEFAULT)
         .themeDark(R.style.PSPDFCompose_Theme_Dark)
@@ -149,6 +156,29 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
                         IconButton(onClick = { if (documentState.isDefaultViewerActive()) navigateTo.invoke() else documentState.exitCurrentState() }) {
                             Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = it)
                         }
+                    },
+                    overFlowActions = {
+                        Row(
+                            Modifier.clickable {
+                                documentState.documentConnection.showToolbarMenu.invoke(false)
+                                Toast.makeText(context, "Custom Action Button Clicked", Toast.LENGTH_LONG).show()
+                            }.padding(horizontal = 16.dp, vertical = 13.dp)
+                        ) {
+                            Icon(imageVector = Icons.Outlined.Square, contentDescription = "Custom Action", tint = it)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = "Custom Action", color = UiTheme.colors.mainToolbar.textColor)
+                        }
+                        /*
+                        For Material 2 use this
+                            DropdownMenuItem(onClick = {
+                                documentState.documentConnection.showToolbarMenu.invoke(false)
+                                Toast.makeText(context, "Custom Action Button Clicked", Toast.LENGTH_LONG).show()
+                            }) {
+                                Icon(imageVector = Icons.Outlined.Square, contentDescription = "Custom Action", tint = it)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(text = "Custom Action", color = UiTheme.colors.mainToolbar.textColor)
+                            }
+                        */
                     },
                     onHeightChanged = { height ->
                         toolbarHeight = with(localDensity) { height.toDp() }
