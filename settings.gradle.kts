@@ -18,5 +18,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "simple"
+rootProject.name = "simple-compose"
 include(":app")
