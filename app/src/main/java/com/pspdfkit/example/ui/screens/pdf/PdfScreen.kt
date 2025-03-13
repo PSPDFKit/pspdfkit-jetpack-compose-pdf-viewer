@@ -20,6 +20,8 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.captionBar
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -147,6 +149,7 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
                 MainToolbar(
                     documentState = documentState,
                     colorScheme = uiColors,
+                    windowInsets = WindowInsets.captionBar,
                     navigationIcon = {
                         IconButton(onClick = { if (documentState.isDefaultViewerActive()) navigateTo.invoke() else documentState.exitCurrentState() }) {
                             Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = it)
