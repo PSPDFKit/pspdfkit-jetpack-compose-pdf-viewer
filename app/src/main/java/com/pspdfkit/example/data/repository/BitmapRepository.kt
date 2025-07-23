@@ -12,10 +12,12 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.collection.LruCache
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import com.pspdfkit.document.PdfDocumentLoader
 import com.pspdfkit.example.utils.calculateBitmapSize
 import com.pspdfkit.utils.Size
 import java.io.File
+
 /** Repository to hold all the tasks related to bitmap processing */
 class BitmapRepository(private val context: Context) {
 
@@ -38,7 +40,7 @@ class BitmapRepository(private val context: Context) {
             previewImageCache[id] ?: throw java.lang.Exception("unable to generate bitmap with PdfDocumentLoader")
         } catch (e: Exception) {
             e.printStackTrace()
-            Bitmap.createBitmap(1.dp.value.toInt(), 150.dp.value.toInt(), Bitmap.Config.ARGB_8888)
+            createBitmap(1.dp.value.toInt(), 150.dp.value.toInt())
         }
     }
 }

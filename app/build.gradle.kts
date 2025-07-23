@@ -50,14 +50,14 @@ dependencies {
 
     // Nutrient is integrated from the Nutrient Maven repository. See the `repositories` block at the beginning
     // of this file, which shows how to set up the repository in your app.
-    implementation("io.nutrient:nutrient:10.4.1")
+    implementation("io.nutrient:nutrient:10.5.0")
 
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("io.insert-koin:koin-androidx-compose:3.5.0")
-    val roomVersion = "2.6.1"
+    val roomVersion = "2.7.1"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     // Optional - Kotlin Extensions and Coroutines support for Room

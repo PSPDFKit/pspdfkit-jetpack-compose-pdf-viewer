@@ -7,7 +7,6 @@
 
 package com.pspdfkit.example.ui.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -38,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import com.pspdfkit.example.R
 import com.pspdfkit.example.models.HistoryTable
 import com.pspdfkit.example.models.HistoryType
@@ -131,5 +131,5 @@ fun GridViewPreview() {
         }
     }.toList()
 
-    GridView(list, { _ -> }, { Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888).asImageBitmap() }, {})
+    GridView(list, { _ -> }, { createBitmap(1, 1).asImageBitmap() }, {})
 }

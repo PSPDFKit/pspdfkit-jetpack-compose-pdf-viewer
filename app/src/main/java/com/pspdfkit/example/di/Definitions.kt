@@ -20,7 +20,7 @@ fun getDb(context: Context): AppDatabase {
             context,
             AppDatabase::class.java,
             "database-pspdf-compose"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration(true).build()
     }
 }
 
