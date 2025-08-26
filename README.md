@@ -1,12 +1,12 @@
-# Nutrient for Android Example - Simple Jetpack Compose Example App
+# Nutrient Android SDK example — Simple Jetpack Compose example app
 
-A simple example app demonstrating [Nutrient for Android](https://nutrient.io/pdf-sdk/android/)'s composable API in the `com.pspdfkit.jetpack.compose` package.
+This is a simple example app demonstrating [Nutrient Android SDK](https://nutrient.io/pdf-sdk/android/)’s composable API in the `com.pspdfkit.jetpack.compose` package.
 
 ## Prerequisites
 
 - The latest stable Android Studio version available [here](https://developer.android.com/studio).
 
-## Getting Started
+## Getting started
 
 Clone and check out this example app repository on your local machine:
 
@@ -25,8 +25,8 @@ You can now open the project inside Android Studio, or build and install the app
 
 This software is licensed under a [modified BSD license](LICENSE).
 
-## Additional Resources
+## Additional resources
 
-* Nutrient for Android online guides: https://nutrient.io/guides/android/current/
+* Nutrient Android SDK online guides: https://nutrient.io/guides/android/
 * Nutrient API reference: https://nutrient.io/api/android/kdoc/
 * Nutrient technical customer support: https://nutrient.io/support/request/  
