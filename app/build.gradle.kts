@@ -5,6 +5,7 @@
  *   Please see License for details. This notice may not be removed from this file.
  */
 
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -14,7 +15,7 @@ plugins {
 
 android {
     namespace = "com.pspdfkit.example"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = namespace
@@ -50,7 +51,7 @@ dependencies {
 
     // Nutrient is integrated from the Nutrient Maven repository. See the `repositories` block at the beginning
     // of this file, which shows how to set up the repository in your app.
-    implementation("io.nutrient:nutrient:10.7.0")
+    implementation("io.nutrient:nutrient:10.8.0")
 
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
