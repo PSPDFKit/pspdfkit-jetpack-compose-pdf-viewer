@@ -21,17 +21,15 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.captionBar
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Square
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -53,6 +51,7 @@ import com.pspdfkit.compose.theme.UiTheme
 import com.pspdfkit.compose.theme.getUiColors
 import com.pspdfkit.configuration.activity.PdfActivityConfiguration
 import com.pspdfkit.configuration.activity.UserInterfaceViewMode
+import com.pspdfkit.configuration.page.PageFitMode
 import com.pspdfkit.configuration.theming.ThemeMode
 import com.pspdfkit.document.providers.ContentResolverDataProvider
 import com.pspdfkit.document.providers.DataProvider
@@ -67,14 +66,14 @@ import com.pspdfkit.jetpack.compose.interactors.DefaultListeners
 import com.pspdfkit.jetpack.compose.interactors.getDefaultDocumentManager
 import com.pspdfkit.jetpack.compose.interactors.rememberDocumentState
 import com.pspdfkit.jetpack.compose.views.DocumentView
-import org.koin.androidx.compose.getViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import java.io.File
 
 /** [PdfScreen] acts as a pdf container which displays PDF. */
 @Composable
 fun PdfScreen(id: String, navigateTo: () -> Unit) {
     val context = LocalContext.current
-    val pdfVM = getViewModel<PdfScreenViewModel>()
+    val pdfVM = koinViewModel<PdfScreenViewModel>()
     val doc by pdfVM.getDocument(id).collectAsState(initial = emptyList())
     val theme by context.isDarkThemeOn().collectAsState(initial = isSystemSpecific)
     doc.firstOrNull()?.let { pdf ->
@@ -97,6 +96,7 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
     val pdfActivityConfiguration = PdfActivityConfiguration
         .Builder(context)
         .defaultToolbarEnabled(false)
+        .fitMode(PageFitMode.FIT_TO_WIDTH)
         .setUserInterfaceViewMode(UserInterfaceViewMode.USER_INTERFACE_VIEW_MODE_AUTOMATIC)
         .themeMode(ThemeMode.DEFAULT)
         .themeDark(R.style.PSPDFCompose_Theme_Dark)
@@ -110,68 +110,66 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
     val enableViewSpacer by documentState.viewWithOverlappingToolbarShown.collectAsState()
     val viewSpacerHeight by remember { derivedStateOf { if (enableViewSpacer && toolbarVisibility) toolbarHeight else 0.dp } }
 
-    Scaffold {
-        Box(modifier = Modifier.padding(it), contentAlignment = Alignment.TopCenter) {
-            val density = LocalDensity.current
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+        val density = LocalDensity.current
 
-            Column {
-                Box(modifier = Modifier.height(viewSpacerHeight))
-                DocumentView(
-                    documentState,
-                    modifier = Modifier.fillMaxSize(),
-                    // Examples showing how to hook into the callbacks.
-                    documentManager = getDefaultDocumentManager(
-                        documentListener = DefaultListeners.documentListeners(onDocumentLoaded = {
-                            Toast.makeText(context, "document Loaded", Toast.LENGTH_LONG).show()
-                        }),
-                        annotationListener = DefaultListeners.annotationListeners(
-                            onAnnotationSelected = { annotation, _ ->
-                                Toast.makeText(context, "${annotation.type} selected", Toast.LENGTH_LONG).show()
-                            },
-                            onAnnotationDeselected = { annotation, _ ->
-                                Toast.makeText(context, "${annotation.type} deselected", Toast.LENGTH_LONG).show()
-                            }
-                        ),
-                        uiListener = DefaultListeners.uiListeners(onImmersiveModeEnabled = { visibility ->
-                            toolbarVisibility = visibility
-                        })
-                    )
-                )
-            }
-
-            AnimatedVisibility(
-                visible = toolbarVisibility,
-                enter = slideInVertically { with(density) { -40.dp.roundToPx() } } +
-                    expandVertically(expandFrom = Alignment.Top) +
-                    fadeIn(initialAlpha = 0.3f),
-                exit = slideOutVertically() + shrinkVertically() + fadeOut()
-            ) {
-                MainToolbar(
-                    documentState = documentState,
-                    colorScheme = uiColors,
-                    windowInsets = WindowInsets.captionBar,
-                    navigationIcon = {
-                        IconButton(onClick = { if (documentState.isDefaultViewerActive()) navigateTo.invoke() else documentState.exitCurrentState() }) {
-                            Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = it)
+        Column {
+            Box(modifier = Modifier.height(viewSpacerHeight))
+            DocumentView(
+                documentState,
+                modifier = Modifier.fillMaxSize(),
+                // Examples showing how to hook into the callbacks.
+                documentManager = getDefaultDocumentManager(
+                    documentListener = DefaultListeners.documentListeners(onDocumentLoaded = {
+                        Toast.makeText(context, "document Loaded", Toast.LENGTH_LONG).show()
+                    }),
+                    annotationListener = DefaultListeners.annotationListeners(
+                        onAnnotationSelected = { annotation, _ ->
+                            Toast.makeText(context, "${annotation.type} selected", Toast.LENGTH_LONG).show()
+                        },
+                        onAnnotationDeselected = { annotation, _ ->
+                            Toast.makeText(context, "${annotation.type} deselected", Toast.LENGTH_LONG).show()
                         }
-                    },
-                    overFlowActions = {
-                        DropdownMenuItem(
-                            onClick = {
-                                documentState.documentConnection.showToolbarMenu.invoke(false)
-                                Toast.makeText(context, "Custom Action Button Clicked", Toast.LENGTH_LONG).show()
-                            },
-                            text = { Text(text = "Custom Action", color = UiTheme.colors.mainToolbar.textColor) },
-                            leadingIcon = {
-                                Icon(imageVector = Icons.Outlined.Square, contentDescription = "Custom Action", tint = it)
-                            }
-                        )
-                    },
-                    onHeightChanged = { height ->
-                        toolbarHeight = with(localDensity) { height.toDp() }
-                    }
+                    ),
+                    uiListener = DefaultListeners.uiListeners(onImmersiveModeEnabled = { immersiveModeEnabled ->
+                        toolbarVisibility = !immersiveModeEnabled
+                    })
                 )
-            }
+            )
+        }
+
+        AnimatedVisibility(
+            visible = toolbarVisibility,
+            enter = slideInVertically { with(density) { -40.dp.roundToPx() } } +
+                expandVertically(expandFrom = Alignment.Top) +
+                fadeIn(initialAlpha = 0.3f),
+            exit = slideOutVertically() + shrinkVertically() + fadeOut()
+        ) {
+            MainToolbar(
+                documentState = documentState,
+                colorScheme = uiColors,
+                windowInsets = WindowInsets.statusBars,
+                navigationIcon = {
+                    IconButton(onClick = { if (documentState.isDefaultViewerActive()) navigateTo.invoke() else documentState.exitCurrentState() }) {
+                        Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = it)
+                    }
+                },
+                overFlowActions = {
+                    DropdownMenuItem(
+                        onClick = {
+                            documentState.documentConnection.showToolbarMenu.invoke(false)
+                            Toast.makeText(context, "Custom Action Button Clicked", Toast.LENGTH_LONG).show()
+                        },
+                        text = { Text(text = "Custom Action", color = UiTheme.colors.mainToolbar.textColor) },
+                        leadingIcon = {
+                            Icon(imageVector = Icons.Outlined.Square, contentDescription = "Custom Action", tint = it)
+                        }
+                    )
+                },
+                onHeightChanged = { height ->
+                    toolbarHeight = with(localDensity) { height.toDp() }
+                }
+            )
         }
     }
     BackHandler(true) {

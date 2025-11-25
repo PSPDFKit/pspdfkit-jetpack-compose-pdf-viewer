@@ -53,7 +53,7 @@ import com.pspdfkit.example.ui.screens.pdfScreenWithId
 import com.pspdfkit.example.utils.copyExternalFile
 import com.pspdfkit.example.utils.isList
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import java.io.File
 
 /** [MainScreen] provides various navigation option to move around in app.
@@ -62,7 +62,7 @@ import java.io.File
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navigateTo: (String) -> Unit) {
-    val mainVM = getViewModel<MainScreenViewModel>()
+    val mainVM = koinViewModel<MainScreenViewModel>()
     val init by mainVM.copyAssets.collectAsState()
     val pdfList by mainVM.pdfList.collectAsState(emptyList())
     val context = LocalContext.current

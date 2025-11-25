@@ -45,27 +45,32 @@ android {
         // "GradleDependency" needs to be on a separate line because of gradle_lint.sh CI script
         disable.add("GradleDependency")
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/versions/9/OSGI-INF/MANIFEST.MF"
+        }
+    }
 }
 
 dependencies {
 
     // Nutrient is integrated from the Nutrient Maven repository. See the `repositories` block at the beginning
     // of this file, which shows how to set up the repository in your app.
-    implementation("io.nutrient:nutrient:10.8.0")
+    implementation("io.nutrient:nutrient:10.9.0")
 
 
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("io.insert-koin:koin-androidx-compose:3.5.0")
-    val roomVersion = "2.7.1"
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.4")
+    implementation("androidx.navigation:navigation-compose:2.8.1")
+    implementation("io.insert-koin:koin-androidx-compose:4.1.1")
+    val roomVersion = "2.8.3"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
     // Optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.activity:activity-compose:1.9.3")
-    implementation(platform("androidx.compose:compose-bom:2025.01.01"))
+    implementation("androidx.activity:activity-compose:1.11.0")
+    implementation(platform("androidx.compose:compose-bom:2025.10.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")

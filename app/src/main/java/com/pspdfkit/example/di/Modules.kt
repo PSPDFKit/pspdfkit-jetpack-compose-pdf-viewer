@@ -14,7 +14,7 @@ import com.pspdfkit.example.data.repository.SettingsRepository
 import com.pspdfkit.example.ui.screens.main.MainScreenViewModel
 import com.pspdfkit.example.ui.screens.pdf.PdfScreenViewModel
 import com.pspdfkit.example.ui.screens.settings.SettingsScreenViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 /** viewModel module for DI */

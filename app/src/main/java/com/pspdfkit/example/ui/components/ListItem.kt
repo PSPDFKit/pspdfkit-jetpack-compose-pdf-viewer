@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageBitmapConfig
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -93,8 +94,9 @@ fun ListItem(historyTable: HistoryTable, onClick: (String) -> Unit, bitmap: susp
 @Composable
 fun ListItemPreview() {
     val context = LocalContext.current
+    val resources = LocalResources.current
     val path = context.getFile(DEMO_DOCUMENT_ASSET_NAME).path
     ListItem(recent(path), { _ -> }) {
-        ImageBitmap.imageResource(context.resources, R.drawable.external_file_sources)
+        ImageBitmap.imageResource(resources, R.drawable.external_file_sources)
     }
 }

@@ -49,13 +49,13 @@ import com.pspdfkit.example.utils.Theme.isLight
 import com.pspdfkit.example.utils.Theme.isSystemSpecific
 import com.pspdfkit.example.utils.isDarkThemeOn
 import com.pspdfkit.example.utils.isThemeDynamic
-import org.koin.androidx.compose.getViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 /** Displays provided settings in App. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navigateTo: () -> Unit) {
-    val viewModel = getViewModel<SettingsScreenViewModel>()
+    val viewModel = koinViewModel<SettingsScreenViewModel>()
     // Default is false (not showing)
     var alertDialogVisibility by remember { mutableStateOf(false) }
 
