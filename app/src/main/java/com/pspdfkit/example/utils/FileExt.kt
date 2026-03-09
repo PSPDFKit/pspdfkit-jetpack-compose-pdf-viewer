@@ -20,9 +20,11 @@ import java.util.UUID
 const val DEMO_DOCUMENT_ASSET_NAME = "demo.pdf"
 
 fun Context.getWorkingDir() = File(cacheDir, "pdf")
+
 fun Context.getFile(name: String) = File(getWorkingDir(), name)
 
 fun Context.doesLocalFileExists() = getFile(DEMO_DOCUMENT_ASSET_NAME).exists()
+
 suspend fun File.copyFile(context: Context, finish: suspend () -> Unit) {
     val assetManager = context.assets
     runCatching {
@@ -60,10 +62,8 @@ suspend fun copyExternalFile(context: Context, uri: Uri, finish: suspend (File) 
     }
 }
 
-fun getName(uri: Uri, context: Context): String? {
-    return context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-        cursor.moveToFirst()
-        cursor.getString(nameIndex)
-    }
+fun getName(uri: Uri, context: Context): String? = context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+    val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+    cursor.moveToFirst()
+    cursor.getString(nameIndex)
 }

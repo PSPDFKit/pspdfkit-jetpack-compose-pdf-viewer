@@ -17,7 +17,6 @@ import com.pspdfkit.example.utils.isDynamicKey
 
 /** [SettingsRepository] contains all the functionality related to settings. */
 class SettingsRepository(private val context: Context, private val historyDao: HistoryDao) {
-
     // Clear all data from local Db and re-fetch pdf files
     suspend fun clearAllData(finish: suspend () -> Unit) {
         val dir = context.getWorkingDir()

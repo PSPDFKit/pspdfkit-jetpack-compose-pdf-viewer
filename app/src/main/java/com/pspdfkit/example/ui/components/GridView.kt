@@ -53,8 +53,8 @@ import com.pspdfkit.example.utils.getFile
 fun GridView(
     pdfList: List<HistoryTable>,
     navigateTo: (String) -> Unit,
-    bitmap: suspend(HistoryTable) -> ImageBitmap,
-    filePicker: () -> Unit
+    bitmap: suspend (HistoryTable) -> ImageBitmap,
+    filePicker: () -> Unit,
 ) {
     val localPdf = pdfList.filter { it.type == HistoryType.LOCAL.type() }
     val recentPdf = pdfList.filter { it.type != HistoryType.LOCAL.type() }
@@ -69,29 +69,30 @@ fun GridView(
         item {
             ElevatedCard(
                 onClick = { filePicker.invoke() },
-                modifier = Modifier.padding(6.dp, 6.dp)
+                modifier = Modifier.padding(6.dp, 6.dp),
             ) {
                 Box {
                     Image(
                         painter = painterResource(id = R.drawable.external_file_sources),
                         contentDescription = "External Files",
-                        modifier = Modifier
+                        modifier =
+                        Modifier
                             .fillMaxWidth()
                             .height(150.dp)
                             .clip(RoundedCornerShape(12.dp))
                             .background(Color.White)
                             .padding(24.dp),
-                        contentScale = ContentScale.FillWidth
+                        contentScale = ContentScale.FillWidth,
                     )
                 }
                 Column(
-                    modifier = Modifier.padding(12.dp, 16.dp)
+                    modifier = Modifier.padding(12.dp, 16.dp),
                 ) {
                     Text(
                         text = "External Files",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -122,14 +123,16 @@ fun GridView(
 fun GridViewPreview() {
     val context = LocalContext.current
     val path = context.getFile(DEMO_DOCUMENT_ASSET_NAME).path
-    val list = ArrayList<HistoryTable>().apply {
-        repeat(2) {
-            add(local(path))
-        }
-        repeat(5) {
-            add(recent(path))
-        }
-    }.toList()
+    val list =
+        ArrayList<HistoryTable>()
+            .apply {
+                repeat(2) {
+                    add(local(path))
+                }
+                repeat(5) {
+                    add(recent(path))
+                }
+            }.toList()
 
     GridView(list, { _ -> }, { createBitmap(1, 1).asImageBitmap() }, {})
 }

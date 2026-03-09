@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 /** [MainRepository] mostly manages all the functions related to Main screen  */
 class MainRepository(private val historyDao: HistoryDao, private val context: Context) {
     init {
-        /** initialises the specific working cache directory */
+        // Initializes the specific working cache directory
         context.getWorkingDir().let { if (!it.exists()) it.mkdir() }
     }
 

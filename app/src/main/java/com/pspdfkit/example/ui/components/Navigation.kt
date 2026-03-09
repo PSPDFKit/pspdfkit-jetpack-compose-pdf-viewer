@@ -25,7 +25,7 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Screens.MAIN_SCREEN
+        startDestination = Screens.MAIN_SCREEN,
     ) {
         composable(Screens.MAIN_SCREEN) { MainScreen { path -> navController.navigate(path) } }
         composable(Screens.SETTINGS_SCREEN) { SettingsScreen { navController.navigateUp() } }

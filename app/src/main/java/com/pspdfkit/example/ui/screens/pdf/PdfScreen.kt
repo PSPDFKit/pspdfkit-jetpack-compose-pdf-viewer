@@ -58,7 +58,7 @@ import com.pspdfkit.document.providers.DataProvider
 import com.pspdfkit.example.R
 import com.pspdfkit.example.ui.theme.DarkColorScheme
 import com.pspdfkit.example.ui.theme.LightColorScheme
-import com.pspdfkit.example.utils.Theme.isSystemSpecific
+import com.pspdfkit.example.utils.Theme.IS_SYSTEM_SPECIFIC
 import com.pspdfkit.example.utils.getDocumentViewTheme
 import com.pspdfkit.example.utils.isDarkThemeOn
 import com.pspdfkit.jetpack.compose.components.MainToolbar
@@ -75,14 +75,14 @@ fun PdfScreen(id: String, navigateTo: () -> Unit) {
     val context = LocalContext.current
     val pdfVM = koinViewModel<PdfScreenViewModel>()
     val doc by pdfVM.getDocument(id).collectAsState(initial = emptyList())
-    val theme by context.isDarkThemeOn().collectAsState(initial = isSystemSpecific)
+    val theme by context.isDarkThemeOn().collectAsState(initial = IS_SYSTEM_SPECIFIC)
     doc.firstOrNull()?.let { pdf ->
         PdfUI(
             pdf = File(pdf.path),
             context = context,
             theme = theme,
             isDark = isSystemInDarkTheme(),
-            navigateTo = navigateTo
+            navigateTo = navigateTo,
         )
     }
 }
@@ -93,15 +93,16 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
     val uiColors = if (isDark) darkCustomUiColors() else lightCustomUiColors()
     var toolbarVisibility by remember { mutableStateOf(true) }
     val localDensity = LocalDensity.current
-    val pdfActivityConfiguration = PdfActivityConfiguration
-        .Builder(context)
-        .defaultToolbarEnabled(false)
-        .fitMode(PageFitMode.FIT_TO_WIDTH)
-        .setUserInterfaceViewMode(UserInterfaceViewMode.USER_INTERFACE_VIEW_MODE_AUTOMATIC)
-        .themeMode(ThemeMode.DEFAULT)
-        .themeDark(R.style.PSPDFCompose_Theme_Dark)
-        .theme(updatedTheme)
-        .build()
+    val pdfActivityConfiguration =
+        PdfActivityConfiguration
+            .Builder(context)
+            .defaultToolbarEnabled(false)
+            .fitMode(PageFitMode.FIT_TO_WIDTH)
+            .setUserInterfaceViewMode(UserInterfaceViewMode.USER_INTERFACE_VIEW_MODE_AUTOMATIC)
+            .themeMode(ThemeMode.DEFAULT)
+            .themeDark(R.style.PSPDFCompose_Theme_Dark)
+            .theme(updatedTheme)
+            .build()
     val dataProvider: DataProvider by remember { mutableStateOf(ContentResolverDataProvider(pdf.toUri())) }
     val documentState = rememberDocumentState(dataProvider, pdfActivityConfiguration)
 
@@ -119,38 +120,45 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
                 documentState,
                 modifier = Modifier.fillMaxSize(),
                 // Examples showing how to hook into the callbacks.
-                documentManager = getDefaultDocumentManager(
-                    documentListener = DefaultListeners.documentListeners(onDocumentLoaded = {
+                documentManager =
+                getDefaultDocumentManager(
+                    documentListener =
+                    DefaultListeners.documentListeners(onDocumentLoaded = {
                         Toast.makeText(context, "document Loaded", Toast.LENGTH_LONG).show()
                     }),
-                    annotationListener = DefaultListeners.annotationListeners(
+                    annotationListener =
+                    DefaultListeners.annotationListeners(
                         onAnnotationSelected = { annotation, _ ->
                             Toast.makeText(context, "${annotation.type} selected", Toast.LENGTH_LONG).show()
                         },
                         onAnnotationDeselected = { annotation, _ ->
                             Toast.makeText(context, "${annotation.type} deselected", Toast.LENGTH_LONG).show()
-                        }
+                        },
                     ),
-                    uiListener = DefaultListeners.uiListeners(onImmersiveModeEnabled = { immersiveModeEnabled ->
+                    uiListener =
+                    DefaultListeners.uiListeners(onImmersiveModeEnabled = { immersiveModeEnabled ->
                         toolbarVisibility = !immersiveModeEnabled
-                    })
-                )
+                    }),
+                ),
             )
         }
 
         AnimatedVisibility(
             visible = toolbarVisibility,
-            enter = slideInVertically { with(density) { -40.dp.roundToPx() } } +
+            enter =
+            slideInVertically { with(density) { -40.dp.roundToPx() } } +
                 expandVertically(expandFrom = Alignment.Top) +
                 fadeIn(initialAlpha = 0.3f),
-            exit = slideOutVertically() + shrinkVertically() + fadeOut()
+            exit = slideOutVertically() + shrinkVertically() + fadeOut(),
         ) {
             MainToolbar(
                 documentState = documentState,
                 colorScheme = uiColors,
                 windowInsets = WindowInsets.statusBars,
                 navigationIcon = {
-                    IconButton(onClick = { if (documentState.isDefaultViewerActive()) navigateTo.invoke() else documentState.exitCurrentState() }) {
+                    IconButton(onClick = {
+                        if (documentState.isDefaultViewerActive()) navigateTo.invoke() else documentState.exitCurrentState()
+                    }) {
                         Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back", tint = it)
                     }
                 },
@@ -163,12 +171,12 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
                         text = { Text(text = "Custom Action", color = UiTheme.colors.mainToolbar.textColor) },
                         leadingIcon = {
                             Icon(imageVector = Icons.Outlined.Square, contentDescription = "Custom Action", tint = it)
-                        }
+                        },
                     )
                 },
                 onHeightChanged = { height ->
                     toolbarHeight = with(localDensity) { height.toDp() }
-                }
+                },
             )
         }
     }
@@ -180,20 +188,22 @@ fun PdfUI(pdf: File, context: Context, theme: Int, isDark: Boolean, navigateTo: 
 // Here we can customise the specific views for example the main toolbar.
 @Composable
 fun lightCustomUiColors() = getUiColors().copy(
-    mainToolbar = MainToolbarColors(
+    mainToolbar =
+    MainToolbarColors(
         backgroundColor = LightColorScheme.primary,
         textColor = Color.Black,
         popup = ToolbarPopupColors(backgroundColor = LightColorScheme.primary),
-        titleTextColor = Color.Black
-    )
+        titleTextColor = Color.Black,
+    ),
 )
 
 @Composable
 fun darkCustomUiColors() = getUiColors().copy(
-    mainToolbar = MainToolbarColors(
+    mainToolbar =
+    MainToolbarColors(
         backgroundColor = DarkColorScheme.primary,
         textColor = Color.White,
         popup = ToolbarPopupColors(backgroundColor = DarkColorScheme.primary),
-        titleTextColor = Color.White
-    )
+        titleTextColor = Color.White,
+    ),
 )

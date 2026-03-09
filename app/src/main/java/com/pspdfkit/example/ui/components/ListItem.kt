@@ -45,10 +45,11 @@ import com.pspdfkit.example.utils.getFile
 import com.pspdfkit.example.utils.timeAgoInSeconds
 import kotlinx.coroutines.launch
 import java.io.File
+
 /** Composable for List item element */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListItem(historyTable: HistoryTable, onClick: (String) -> Unit, bitmap: suspend(HistoryTable) -> ImageBitmap) {
+fun ListItem(historyTable: HistoryTable, onClick: (String) -> Unit, bitmap: suspend (HistoryTable) -> ImageBitmap) {
     var localBitmap by remember {
         mutableStateOf(ImageBitmap(1, 1, ImageBitmapConfig.Argb8888))
     }
@@ -66,27 +67,28 @@ fun ListItem(historyTable: HistoryTable, onClick: (String) -> Unit, bitmap: susp
                 text = file.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
         },
         supportingContent = {
             Text(
                 text = file.lastModified().timeAgoInSeconds(),
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.labelSmall,
             )
         },
         leadingContent = {
             Image(
                 bitmap = localBitmap,
                 contentDescription = "External files",
-                modifier = Modifier
+                modifier =
+                Modifier
                     .width(50.dp)
                     .height(38.dp)
                     .clip(RoundedCornerShape(4.dp))
                     .background(Color.LightGray),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
-        }
+        },
     )
 }
 

@@ -14,14 +14,14 @@ import com.pspdfkit.example.data.local.HistoryDao
 import com.pspdfkit.example.models.HistoryTable
 
 /** [getDb] provides [AppDatabase] instance. */
-fun getDb(context: Context): AppDatabase {
-    return synchronized(context) {
-        Room.databaseBuilder(
+fun getDb(context: Context): AppDatabase = synchronized(context) {
+    Room
+        .databaseBuilder(
             context,
             AppDatabase::class.java,
-            "database-pspdf-compose"
-        ).fallbackToDestructiveMigration(true).build()
-    }
+            "database-pspdf-compose",
+        ).fallbackToDestructiveMigration(true)
+        .build()
 }
 
 /** Provides [HistoryDao] from database to manipulate entries from [HistoryTable]. */

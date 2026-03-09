@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-consecutive-comments", "UseTomlInstead")
+
 /*
  *   Copyright © 2019-2026 PSPDFKit GmbH. All rights reserved.
  *
@@ -33,15 +35,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         compose = true
     }
     lint {
         warningsAsErrors = true
-        disable += setOf("ObsoleteLintCustomCheck", "AndroidGradlePluginVersion")
+        disable += setOf("AndroidGradlePluginVersion")
         // "GradleDependency" needs to be on a separate line because of gradle_lint.sh CI script
         disable.add("GradleDependency")
     }
@@ -56,12 +55,12 @@ dependencies {
 
     // Nutrient is integrated from the Nutrient Maven repository. See the `repositories` block at the beginning
     // of this file, which shows how to set up the repository in your app.
-    implementation("io.nutrient:nutrient:11.1.1")
+    implementation("io.nutrient:nutrient:11.2.0")
 
 
     implementation("androidx.datastore:datastore-preferences:1.1.7")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.4")
-    implementation("androidx.navigation:navigation-compose:2.8.1")
+    implementation("androidx.navigation:navigation-compose:2.9.7")
     implementation("io.insert-koin:koin-androidx-compose:4.1.1")
     val roomVersion = "2.8.3"
     implementation("androidx.room:room-runtime:$roomVersion")

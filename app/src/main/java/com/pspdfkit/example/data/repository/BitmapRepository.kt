@@ -20,7 +20,6 @@ import java.io.File
 
 /** Repository to hold all the tasks related to bitmap processing */
 class BitmapRepository(private val context: Context) {
-
     /** [previewImageCache] acts as a local cache for bitmap */
     private val previewImageCache: LruCache<String, Bitmap> =
         object : LruCache<String, Bitmap>((Runtime.getRuntime().maxMemory() / 1024 / 8).toInt()) {

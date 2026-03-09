@@ -53,7 +53,7 @@ import java.io.File
 /** Composable for Grid item element */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GridItem(historyTable: HistoryTable, onClick: (String) -> Unit, bitmap: suspend(HistoryTable) -> ImageBitmap) {
+fun GridItem(historyTable: HistoryTable, onClick: (String) -> Unit, bitmap: suspend (HistoryTable) -> ImageBitmap) {
     var localBitmap by remember {
         mutableStateOf(ImageBitmap(1, 1, ImageBitmapConfig.Argb8888))
     }
@@ -66,33 +66,34 @@ fun GridItem(historyTable: HistoryTable, onClick: (String) -> Unit, bitmap: susp
     }
     ElevatedCard(
         onClick = { onClick.invoke(Screens.pdfScreenWithId(historyTable.id)) },
-        modifier = Modifier.padding(6.dp, 6.dp)
+        modifier = Modifier.padding(6.dp, 6.dp),
     ) {
         Box {
             Image(
                 bitmap = localBitmap,
                 contentDescription = file.name,
-                modifier = Modifier
+                modifier =
+                Modifier
                     .fillMaxWidth()
                     .height(150.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .background(Color.LightGray),
-                contentScale = ContentScale.FillWidth
+                contentScale = ContentScale.FillWidth,
             )
         }
         Column(
-            modifier = Modifier.padding(12.dp, 16.dp)
+            modifier = Modifier.padding(12.dp, 16.dp),
         ) {
             Text(
                 text = file.name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = file.lastModified().timeAgoInSeconds(),
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.labelSmall,
             )
         }
     }

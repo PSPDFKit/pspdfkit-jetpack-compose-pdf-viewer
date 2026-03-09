@@ -71,21 +71,22 @@ fun MainScreen(navigateTo: (String) -> Unit) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutine = rememberCoroutineScope()
 
-    val filePickerActivityResultLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            it.data?.data
-            it.data?.data?.let {
-                coroutine.launch {
-                    // todo can be converted to states in VM
-                    copyExternalFile(context, it) {
-                        val recent = recent(it.path)
-                        mainVM.addRecentPdf(recent)
-                        navigateTo.invoke(Screens.pdfScreenWithId(recent.id))
+    val filePickerActivityResultLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it.data?.data
+                it.data?.data?.let {
+                    coroutine.launch {
+                        // todo can be converted to states in VM
+                        copyExternalFile(context, it) {
+                            val recent = recent(it.path)
+                            mainVM.addRecentPdf(recent)
+                            navigateTo.invoke(Screens.pdfScreenWithId(recent.id))
+                        }
                     }
                 }
             }
         }
-    }
 
     LaunchedEffect(Unit) {
         mainVM.init()
@@ -101,34 +102,35 @@ fun MainScreen(navigateTo: (String) -> Unit) {
                     coroutine.launch { drawerState.close() }
                     navigateTo.invoke(Screens.SETTINGS_SCREEN)
                 },
-                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
             )
         }
     }, content = {
-            Scaffold(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .nestedScroll(scrollBehavior.nestedScrollConnection),
-                topBar = { CustomTopAppBar(drawerState, scrollBehavior, toggle) }
+        Scaffold(
+            modifier =
+            Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = { CustomTopAppBar(drawerState, scrollBehavior, toggle) },
+        ) {
+            Box(
+                Modifier
+                    .padding(it)
+                    .padding(8.dp, 0.dp),
             ) {
-                Box(
-                    Modifier
-                        .padding(it)
-                        .padding(8.dp, 0.dp)
-                ) {
-                    if (init) {
-                        MainUI(toggle == 0, pdfList, navigateTo, { item -> mainVM.getBitmap(File(item.path)).asImageBitmap() }) {
-                            filePickerActivityResultLauncher.launch(
-                                Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                                    addCategory(Intent.CATEGORY_OPENABLE)
-                                    type = "application/*"
-                                }
-                            )
-                        }
+                if (init) {
+                    MainUI(toggle == 0, pdfList, navigateTo, { item -> mainVM.getBitmap(File(item.path)).asImageBitmap() }) {
+                        filePickerActivityResultLauncher.launch(
+                            Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                                addCategory(Intent.CATEGORY_OPENABLE)
+                                type = "application/*"
+                            },
+                        )
                     }
                 }
             }
-        })
+        }
+    })
 }
 
 @Composable
@@ -136,8 +138,8 @@ fun MainUI(
     isList: Boolean,
     pdfList: List<HistoryTable>,
     navigateTo: (String) -> Unit,
-    bitmap: suspend(HistoryTable) -> ImageBitmap,
-    filePicker: () -> Unit
+    bitmap: suspend (HistoryTable) -> ImageBitmap,
+    filePicker: () -> Unit,
 ) {
     if (isList) {
         ListView(pdfList = pdfList, navigateTo = navigateTo, bitmap = bitmap, filePicker = filePicker)

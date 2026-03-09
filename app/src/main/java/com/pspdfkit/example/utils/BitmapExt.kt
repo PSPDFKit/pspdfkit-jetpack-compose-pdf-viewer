@@ -9,15 +9,17 @@ package com.pspdfkit.example.utils
 
 import com.pspdfkit.document.PdfDocument
 import com.pspdfkit.utils.Size
+
 /**
  * bitmap size conversion
  */
 fun PdfDocument.calculateBitmapSize(availableSpace: Size): Size {
     val pageSize = getPageSize(0)
-    val ratio: Float = if (pageSize.width > pageSize.height) {
-        availableSpace.width / pageSize.width
-    } else {
-        availableSpace.height / pageSize.height
-    }
+    val ratio: Float =
+        if (pageSize.width > pageSize.height) {
+            availableSpace.width / pageSize.width
+        } else {
+            availableSpace.height / pageSize.height
+        }
     return Size(pageSize.width * ratio, pageSize.height * ratio)
 }

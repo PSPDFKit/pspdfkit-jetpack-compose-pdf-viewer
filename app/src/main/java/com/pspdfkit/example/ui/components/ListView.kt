@@ -46,7 +46,7 @@ fun ListView(
     pdfList: List<HistoryTable>,
     navigateTo: (String) -> Unit,
     bitmap: suspend (HistoryTable) -> ImageBitmap,
-    filePicker: () -> Unit
+    filePicker: () -> Unit,
 ) {
     val localPdf = pdfList.filter { it.type == HistoryType.LOCAL.type() }
     val recentPdf = pdfList.filter { it.type != HistoryType.LOCAL.type() }
@@ -61,7 +61,7 @@ fun ListView(
                     Text(
                         "External Files",
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 },
                 supportingContent = {
@@ -76,9 +76,9 @@ fun ListView(
                             .width(50.dp)
                             .height(38.dp)
                             .clip(RoundedCornerShape(4.dp)),
-                        contentScale = ContentScale.Crop
+                        contentScale = ContentScale.Crop,
                     )
-                }
+                },
             )
         }
         if (localPdf.isNotEmpty()) {
@@ -121,6 +121,6 @@ fun ListViewPreview() {
         list,
         { _ -> },
         { createBitmap(1, 1).asImageBitmap() },
-        {}
+        {},
     )
 }

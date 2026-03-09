@@ -13,7 +13,8 @@ import com.pspdfkit.example.data.repository.MainRepository
 import com.pspdfkit.example.data.repository.SettingsRepository
 import kotlinx.coroutines.launch
 
-class SettingsScreenViewModel(private val settingsRepository: SettingsRepository, private val mainRepository: MainRepository) : ViewModel() {
+class SettingsScreenViewModel(private val settingsRepository: SettingsRepository, private val mainRepository: MainRepository) :
+    ViewModel() {
     fun updateDynamicTheme(i: Int) {
         viewModelScope.launch {
             settingsRepository.updateDynamicTheme(i)

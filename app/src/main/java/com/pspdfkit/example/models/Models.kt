@@ -14,11 +14,7 @@ import java.util.UUID
 
 /** [HistoryTable] is a database table which acts as container to hold necessary data required.  */
 @Entity(tableName = "history_table", indices = [Index(value = ["id", "path"], unique = true)])
-data class HistoryTable(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val path: String,
-    val type: Int
-)
+data class HistoryTable(@PrimaryKey val id: String = UUID.randomUUID().toString(), val path: String, val type: Int)
 
 /** creates [HistoryTable] instance with type [HistoryType.RECENT] */
 fun recent(path: String) = HistoryTable(path = path, type = HistoryType.RECENT.type())
@@ -28,7 +24,8 @@ fun local(path: String) = HistoryTable(path = path, type = HistoryType.LOCAL.typ
 
 /** Enum to differentiate pdf entries type*/
 enum class HistoryType {
-    LOCAL, RECENT
+    LOCAL,
+    RECENT,
 }
 
 /** [HistoryType] extension to convert enum to int values. */

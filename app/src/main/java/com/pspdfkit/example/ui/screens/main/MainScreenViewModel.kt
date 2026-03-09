@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class MainScreenViewModel(private val repository: MainRepository, private val bitmapRepository: BitmapRepository) : ViewModel() {
-
     val copyAssets = repository.assetFileTransferFlow.asStateFlow()
+
     fun init() {
         viewModelScope.launch {
             repository.init()
@@ -26,6 +26,7 @@ class MainScreenViewModel(private val repository: MainRepository, private val bi
     }
 
     fun getBitmap(file: File) = bitmapRepository.getBitmap(file)
+
     fun addRecentPdf(historyTable: HistoryTable) {
         viewModelScope.launch { repository.addRecentPdf(historyTable) }
     }

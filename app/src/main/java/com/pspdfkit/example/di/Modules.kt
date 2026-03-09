@@ -18,22 +18,25 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 /** viewModel module for DI */
-var viewModel = module {
-    viewModel { MainScreenViewModel(get(), get()) }
-    viewModel { PdfScreenViewModel(get()) }
-    viewModel { SettingsScreenViewModel(get(), get()) }
-}
+var viewModel =
+    module {
+        viewModel { MainScreenViewModel(get(), get()) }
+        viewModel { PdfScreenViewModel(get()) }
+        viewModel { SettingsScreenViewModel(get(), get()) }
+    }
 
 /** database module for DI */
-var database = module {
-    single { getDb(get()) }
-    single { getHistoryTableDao(get()) }
-}
+var database =
+    module {
+        single { getDb(get()) }
+        single { getHistoryTableDao(get()) }
+    }
 
 /** repository module for DI */
-var repository = module {
-    single { BitmapRepository(get()) }
-    single { MainRepository(get(), get()) }
-    single { PdfRepository(get()) }
-    single { SettingsRepository(get(), get()) }
-}
+var repository =
+    module {
+        single { BitmapRepository(get()) }
+        single { MainRepository(get(), get()) }
+        single { PdfRepository(get()) }
+        single { SettingsRepository(get(), get()) }
+    }

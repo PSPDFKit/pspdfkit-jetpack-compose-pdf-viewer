@@ -14,8 +14,9 @@ import java.util.Calendar
  * time conversion
  */
 
-fun Long.timeAgoInSeconds() = DateUtils.getRelativeTimeSpanString(
-    this,
-    Calendar.getInstance().timeInMillis,
-    DateUtils.HOUR_IN_MILLIS
-).toString()
+fun Long.timeAgoInSeconds() = DateUtils
+    .getRelativeTimeSpanString(
+        this,
+        Calendar.getInstance().timeInMillis,
+        DateUtils.HOUR_IN_MILLIS,
+    ).toString()

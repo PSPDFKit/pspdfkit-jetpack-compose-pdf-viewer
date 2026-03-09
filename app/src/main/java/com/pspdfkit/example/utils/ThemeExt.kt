@@ -18,9 +18,9 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.pspdfkit.example.R
 import com.pspdfkit.example.utils.Theme.DynamicColors
-import com.pspdfkit.example.utils.Theme.isDark
-import com.pspdfkit.example.utils.Theme.isLight
-import com.pspdfkit.example.utils.Theme.isSystemSpecific
+import com.pspdfkit.example.utils.Theme.IS_DARK
+import com.pspdfkit.example.utils.Theme.IS_LIGHT
+import com.pspdfkit.example.utils.Theme.IS_SYSTEM_SPECIFIC
 import com.pspdfkit.jetpack.compose.views.DocumentView
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -38,13 +38,13 @@ val isDynamicKey = intPreferencesKey("isDynamicKey")
 fun Context.isDarkThemeOn() = dataStore.data
     .map { preferences ->
         // No type safety.
-        preferences[isDarkKey] ?: isSystemSpecific
+        preferences[isDarkKey] ?: IS_SYSTEM_SPECIFIC
     }
 
 fun Context.isThemeDynamic() = dataStore.data
     .map { preferences ->
         // No type safety.
-        preferences[isDynamicKey] ?: DynamicColors.enabled
+        preferences[isDynamicKey] ?: DynamicColors.ENABLED
     }
 
 @Composable
@@ -52,11 +52,13 @@ fun isSystemInDarkThemeCustom(): Boolean {
     val context = LocalContext.current
     val prefs = runBlocking { context.dataStore.data.first() }
     return when (
-        context.isDarkThemeOn()
-            .collectAsState(initial = prefs[isDarkKey] ?: isSystemSpecific).value
+        context
+            .isDarkThemeOn()
+            .collectAsState(initial = prefs[isDarkKey] ?: IS_SYSTEM_SPECIFIC)
+            .value
     ) {
-        isDark -> true
-        isLight -> false
+        IS_DARK -> true
+        IS_LIGHT -> false
         else -> isSystemInDarkTheme()
     }
 }
@@ -66,22 +68,25 @@ fun isThemeDynamic(): Boolean {
     val context = LocalContext.current
     val prefs = runBlocking { context.dataStore.data.first() }
     return when (
-        context.isThemeDynamic()
-            .collectAsState(initial = prefs[isDynamicKey] ?: DynamicColors.enabled).value
+        context
+            .isThemeDynamic()
+            .collectAsState(initial = prefs[isDynamicKey] ?: DynamicColors.ENABLED)
+            .value
     ) {
-        DynamicColors.enabled -> true
+        DynamicColors.ENABLED -> true
         else -> false
     }
 }
 
 /** Theme constants to manage night mode and Dynamic color feature */
 object Theme {
-    const val isDark = 2
-    const val isLight = 1
-    const val isSystemSpecific = 0
+    const val IS_DARK = 2
+    const val IS_LIGHT = 1
+    const val IS_SYSTEM_SPECIFIC = 0
+
     object DynamicColors {
-        const val enabled = 0
-        const val disabled = 1
+        const val ENABLED = 0
+        const val DISABLED = 1
     }
 }
 
@@ -94,6 +99,12 @@ object Theme {
  * else provide theme according to the local preference.
  *
  * */
-fun getDocumentViewTheme(theme: Int, isDark: Boolean) = if (theme == isSystemSpecific) getTheme(isDark) else getTheme(theme == Theme.isDark)
+fun getDocumentViewTheme(theme: Int, isDark: Boolean) = if (theme ==
+    IS_SYSTEM_SPECIFIC
+) {
+    getTheme(isDark)
+} else {
+    getTheme(theme == Theme.IS_DARK)
+}
 
-private fun getTheme(isDark: Boolean) = if (isDark) { R.style.PSPDFCompose_Theme_Dark } else { R.style.PSPDFCompose_Theme_Light }
+private fun getTheme(isDark: Boolean) = if (isDark) R.style.PSPDFCompose_Theme_Dark else R.style.PSPDFCompose_Theme_Light

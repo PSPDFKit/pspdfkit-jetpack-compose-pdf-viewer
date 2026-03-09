@@ -44,9 +44,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.pspdfkit.example.R
 import com.pspdfkit.example.utils.Theme
-import com.pspdfkit.example.utils.Theme.isDark
-import com.pspdfkit.example.utils.Theme.isLight
-import com.pspdfkit.example.utils.Theme.isSystemSpecific
+import com.pspdfkit.example.utils.Theme.IS_DARK
+import com.pspdfkit.example.utils.Theme.IS_LIGHT
+import com.pspdfkit.example.utils.Theme.IS_SYSTEM_SPECIFIC
 import com.pspdfkit.example.utils.isDarkThemeOn
 import com.pspdfkit.example.utils.isThemeDynamic
 import org.koin.compose.viewmodel.koinViewModel
@@ -72,19 +72,19 @@ fun SettingsScreen(navigateTo: () -> Unit) {
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(paddingValues)
+                .padding(paddingValues),
         ) {
             Column(
-                modifier = Modifier
+                modifier =
+                Modifier
                     .width(600.dp)
                     .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
             ) {
                 Row(
                     modifier = Modifier.padding(16.dp, 16.dp),
                     horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column(modifier = Modifier.weight(1f, true)) {
                         Text(
@@ -92,33 +92,33 @@ fun SettingsScreen(navigateTo: () -> Unit) {
                             style = MaterialTheme.typography.bodyLarge,
                             maxLines = 2,
                             textAlign = TextAlign.Start,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
                         )
                         Text(
                             stringResource(
-                                id = when (dynamic.value) {
-                                    Theme.DynamicColors.enabled -> R.string.dynamic_mode_selected
+                                id =
+                                when (dynamic.value) {
+                                    Theme.DynamicColors.ENABLED -> R.string.dynamic_mode_selected
                                     else -> R.string.dynamic_mode_unselected
-                                }
+                                },
                             ),
                             style = MaterialTheme.typography.labelMedium,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
                         )
                     }
                     Switch(
                         colors = SwitchDefaults.colors(uncheckedThumbColor = MaterialTheme.colorScheme.secondary),
                         onCheckedChange = { checked ->
-                            viewModel.updateDynamicTheme(if (checked) Theme.DynamicColors.enabled else Theme.DynamicColors.disabled)
+                            viewModel.updateDynamicTheme(if (checked) Theme.DynamicColors.ENABLED else Theme.DynamicColors.DISABLED)
                         },
-                        checked = dynamic.value == Theme.DynamicColors.enabled
+                        checked = dynamic.value == Theme.DynamicColors.ENABLED,
                     )
                 }
 
                 Row(
                     modifier = Modifier.padding(16.dp, 16.dp),
                     horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
-
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column(modifier = Modifier.weight(1f, true)) {
                         Text(
@@ -126,33 +126,33 @@ fun SettingsScreen(navigateTo: () -> Unit) {
                             style = MaterialTheme.typography.bodyLarge,
                             maxLines = 2,
                             textAlign = TextAlign.Start,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
                         )
                         Text(
                             stringResource(
-                                id = when (theme.value) {
-                                    isSystemSpecific -> R.string.default_theme
+                                id =
+                                when (theme.value) {
+                                    IS_SYSTEM_SPECIFIC -> R.string.default_theme
                                     else -> R.string.custom_theme
-                                }
+                                },
                             ),
                             style = MaterialTheme.typography.labelMedium,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
                         )
                     }
                     Switch(
                         colors = SwitchDefaults.colors(uncheckedThumbColor = MaterialTheme.colorScheme.secondary),
                         onCheckedChange = { checked ->
-                            viewModel.updateDarkTheme(if (checked) isLight else isSystemSpecific)
+                            viewModel.updateDarkTheme(if (checked) IS_LIGHT else IS_SYSTEM_SPECIFIC)
                         },
-                        checked = theme.value != isSystemSpecific
+                        checked = theme.value != IS_SYSTEM_SPECIFIC,
                     )
                 }
-                if (theme.value != isSystemSpecific) {
+                if (theme.value != IS_SYSTEM_SPECIFIC) {
                     Row(
                         modifier = Modifier.padding(16.dp, 16.dp),
                         horizontalArrangement = Arrangement.End,
-                        verticalAlignment = Alignment.CenterVertically
-
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Column(modifier = Modifier.weight(1f, true)) {
                             Text(
@@ -160,55 +160,56 @@ fun SettingsScreen(navigateTo: () -> Unit) {
                                 style = MaterialTheme.typography.bodyLarge,
                                 maxLines = 2,
                                 textAlign = TextAlign.Start,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
                             )
                             Text(
                                 stringResource(
-                                    id = when (theme.value) {
+                                    id =
+                                    when (theme.value) {
                                         1 -> R.string.light_mode_selected
                                         2 -> R.string.dark_mode_selected
                                         else -> R.string.default_theme
-                                    }
+                                    },
                                 ),
                                 style = MaterialTheme.typography.labelMedium,
-                                textAlign = TextAlign.Start
+                                textAlign = TextAlign.Start,
                             )
                         }
                         Switch(
                             colors = SwitchDefaults.colors(uncheckedThumbColor = MaterialTheme.colorScheme.secondary),
                             onCheckedChange = { checked ->
-                                viewModel.updateDarkTheme(if (checked) isDark else isLight)
+                                viewModel.updateDarkTheme(if (checked) IS_DARK else IS_LIGHT)
                             },
-                            checked = theme.value == isDark
+                            checked = theme.value == IS_DARK,
                         )
                     }
                 }
 
                 Row(
-                    modifier = Modifier
+                    modifier =
+                    Modifier
                         .clickable {
                             alertDialogVisibility = true
-                        }
-                        .padding(16.dp, 16.dp),
+                        }.padding(16.dp, 16.dp),
                     horizontalArrangement = Arrangement.End,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column(modifier = Modifier.weight(1f, true)) {
                         Text(
                             stringResource(
-                                id = R.string.cache_title
+                                id = R.string.cache_title,
                             ),
                             style = MaterialTheme.typography.bodyLarge,
                             maxLines = 2,
                             textAlign = TextAlign.Start,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
                         )
                         Text(
                             stringResource(
-                                id = R.string.cache_summary
+                                id = R.string.cache_summary,
                             ),
                             style = MaterialTheme.typography.labelMedium,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
                         )
                     }
                 }
@@ -216,23 +217,24 @@ fun SettingsScreen(navigateTo: () -> Unit) {
                     AlertDialog(onDismissRequest = { alertDialogVisibility = false }, title = {
                         Text(text = stringResource(id = R.string.clear_cache))
                     }, text = {
-                            Text(text = stringResource(id = R.string.cache_summary))
-                        }, confirmButton = {
-                            TextButton(onClick = {
-                                alertDialogVisibility = false
-                                viewModel.clearAllData()
-                                Toast.makeText(context, R.string.storage_cleared, Toast.LENGTH_SHORT)
-                                    .show()
-                            }) {
-                                Text("Ok")
-                            }
-                        }, dismissButton = {
-                            TextButton(onClick = {
-                                alertDialogVisibility = false
-                            }) {
-                                Text("Cancel")
-                            }
-                        })
+                        Text(text = stringResource(id = R.string.cache_summary))
+                    }, confirmButton = {
+                        TextButton(onClick = {
+                            alertDialogVisibility = false
+                            viewModel.clearAllData()
+                            Toast
+                                .makeText(context, R.string.storage_cleared, Toast.LENGTH_SHORT)
+                                .show()
+                        }) {
+                            Text("Ok")
+                        }
+                    }, dismissButton = {
+                        TextButton(onClick = {
+                            alertDialogVisibility = false
+                        }) {
+                            Text("Cancel")
+                        }
+                    })
                 }
             }
         }

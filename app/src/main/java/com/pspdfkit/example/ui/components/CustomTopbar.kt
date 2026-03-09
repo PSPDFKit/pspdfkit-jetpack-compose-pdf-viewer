@@ -47,9 +47,10 @@ fun CustomTopAppBar(drawerState: DrawerState, scrollBehavior: TopAppBarScrollBeh
     val context = LocalContext.current
     Column {
         Box(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .background(MaterialTheme.colorScheme.background)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
         LargeTopAppBar(
             title = {
@@ -73,11 +74,11 @@ fun CustomTopAppBar(drawerState: DrawerState, scrollBehavior: TopAppBarScrollBeh
                 }) {
                     Icon(
                         imageVector = if (toggle == 0) Icons.Filled.GridView else Icons.AutoMirrored.Filled.List,
-                        contentDescription = "Grid_or_list"
+                        contentDescription = "Grid_or_list",
                     )
                 }
             },
-            scrollBehavior = scrollBehavior
+            scrollBehavior = scrollBehavior,
         )
     }
 }
