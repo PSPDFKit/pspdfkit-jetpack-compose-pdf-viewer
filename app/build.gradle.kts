@@ -10,7 +10,6 @@
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
 }
@@ -55,7 +54,7 @@ dependencies {
 
     // Nutrient is integrated from the Nutrient Maven repository. See the `repositories` block at the beginning
     // of this file, which shows how to set up the repository in your app.
-    implementation("io.nutrient:nutrient:11.2.1")
+    implementation("io.nutrient:nutrient:11.3.0")
 
 
     implementation("androidx.datastore:datastore-preferences:1.1.7")
